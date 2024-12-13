@@ -14,6 +14,10 @@ return new class extends Migration {
             $table->id();
             $table->string("username", 100)->nullable(false)->unique("users_username_unique");
             $table->string("password", 100)->nullable(false);
+            $table->enum('role', [
+                'user',
+                'admin',
+            ])->nullable(false); // Hari dalam seminggu (Mon, Tue, ...)
             $table->string("name", 100)->nullable(false);
             $table->string("token", 100)->nullable()->unique("users_token_unique");
             $table->timestamps();

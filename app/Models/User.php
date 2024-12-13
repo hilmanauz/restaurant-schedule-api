@@ -13,7 +13,7 @@ class User extends Model implements Authenticatable
     protected $keyType = "int";
     public $timestamps = true;
     public $incrementing = true;
-    protected $fillable = ["username", "password", "name"];
+    protected $fillable = ["username", "password", "name", "role"];
 
     public function getAuthIdentifierName()
     {

@@ -4,8 +4,6 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Database\Seeders\UserSeeder;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class UserTest extends TestCase
@@ -17,14 +15,16 @@ class UserTest extends TestCase
             [
                 "username" => "johndoe",
                 "password" => "rahasia",
-                "name" => "Hilman Auzan Mulyono"
+                "name" => "Hilman Auzan Mulyono",
+                "role" => "admin"
             ]
         )->assertStatus(201)
             ->assertJson([
                 "data" =>
                     [
                         "username" => "johndoe",
-                        "name" => "Hilman Auzan Mulyono"
+                        "name" => "Hilman Auzan Mulyono",
+                        "role" => "admin"
                     ]
             ]);
     }
@@ -36,7 +36,8 @@ class UserTest extends TestCase
             [
                 "username" => "",
                 "password" => "",
-                "name" => ""
+                "name" => "",
+                "role" => ""
             ]
         )->assertStatus(400)
             ->assertJson([
@@ -49,6 +50,38 @@ class UserTest extends TestCase
                     ],
                     "name" => [
                         "The name field is required."
+                    ],
+                    "role" => [
+                        "The role field is required."
+                    ]
+                ]
+            ]);
+    }
+
+    public function testRegisterFailedRole()
+    {
+        $this->post(
+            "/api/users",
+            [
+                "username" => "",
+                "password" => "",
+                "name" => "",
+                "role" => "coba"
+            ]
+        )->assertStatus(400)
+            ->assertJson([
+                "errors" => [
+                    "username" => [
+                        "The username field is required."
+                    ],
+                    "password" => [
+                        "The password field is required."
+                    ],
+                    "name" => [
+                        "The name field is required."
+                    ],
+                    "role" => [
+                        "The selected role is invalid."
                     ]
                 ]
             ]);
@@ -87,7 +120,8 @@ class UserTest extends TestCase
                 "data" =>
                     [
                         "username" => "test",
-                        "name" => "test"
+                        "name" => "test",
+                        "role" => "admin"
                     ]
             ]);
 
@@ -133,7 +167,7 @@ class UserTest extends TestCase
     {
         $this->seed([UserSeeder::class]);
         $this->delete("/api/users/logout", [], [
-            "Authorization" => "test"
+            "Authorization" => "Bearer test"
         ])->assertStatus(200)
             ->assertJson(
                 [
@@ -149,7 +183,7 @@ class UserTest extends TestCase
     {
         $this->seed([UserSeeder::class]);
         $this->delete("/api/users/logout", [], [
-            "Authorization" => "salah"
+            "Authorization" => "Bearer salah"
         ])->assertStatus(401)
             ->assertJson(
                 [

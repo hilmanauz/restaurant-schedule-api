@@ -23,7 +23,8 @@
                                     "value": {
                                         "username": "johndoe",
                                         "password": "rahasia",
-                                        "name": "Hilman Auzan Mulyono"
+                                        "name": "Hilman Auzan Mulyono",
+                                        "role": "admin"
                                     }
                                 }
                             },
@@ -43,6 +44,9 @@
                                     },
                                     "name": {
                                         "type": "string"
+                                    },
+                                    "role": {
+                                        "type": "string"
                                     }
                                 }
                             }
@@ -60,12 +64,16 @@
                                         "value": {
                                             "errors": {
                                                 "username": [
-                                                    "username must not be blank",
+                                                    "The username field is required",
                                                     "username min 6 characters"
                                                 ],
                                                 "name": [
-                                                    "username must not be blank",
+                                                    "The name field is required",
                                                     "username min 6 characters"
+                                                ],
+                                                "role": [
+                                                    "The selected role is invalid.",
+                                                    "The role field is required."
                                                 ]
                                             }
                                         }
@@ -85,7 +93,8 @@
                                             "data": {
                                                 "id": 1,
                                                 "name": "Hilman Auzan Mulyono",
-                                                "username": "johndoe"
+                                                "username": "johndoe",
+                                                "role": "admin"
                                             }
                                         }
                                     }
@@ -103,6 +112,9 @@
                                                     "type": "string"
                                                 },
                                                 "name": {
+                                                    "type": "string"
+                                                },
+                                                "role": {
                                                     "type": "string"
                                                 }
                                             }
@@ -159,6 +171,9 @@
                                                     "type": "string"
                                                 },
                                                 "token": {
+                                                    "type": "string"
+                                                },
+                                                "role": {
                                                     "type": "string"
                                                 }
                                             }

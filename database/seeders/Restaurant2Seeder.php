@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use App\Models\Restaurant;
 use Illuminate\Database\Seeder;
 
-class RestaurantSeeder extends Seeder
+class Restaurant2Seeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,7 +13,7 @@ class RestaurantSeeder extends Seeder
     public function run(): void
     {
         Restaurant::create([
-            'name' => 'Kushi Tsuru',
+            'name' => 'Tsuru Tsuru',
         ]);
     }
 }

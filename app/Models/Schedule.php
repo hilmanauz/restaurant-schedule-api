@@ -15,7 +15,7 @@ class Schedule extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'restaurant_id',
+        "restaurant_id",
         'day_of_week',
         'open_time',
         'close_time'
@@ -26,4 +26,5 @@ class Schedule extends Model
     {
         return $this->belongsTo(Restaurant::class, "restaurant_id", "id");
     }
+
 }

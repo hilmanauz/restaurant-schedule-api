@@ -1,3 +1,5 @@
 apis:
   docs/user-api.json:
     alias: user-api
+  docs/restaurant-api.json:
+    alias: restaurant-api

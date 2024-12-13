@@ -1,8 +1,8 @@
 <?php
 
+use App\Http\Controllers\RestaurantController;
+use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\UserController;
-use App\Http\Middleware\ApiAuthMiddleware;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,13 +16,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
 Route::post("/users", [UserController::class, "register"]);
 Route::post("/users/login", [UserController::class, "login"]);
 
-Route::middleware(ApiAuthMiddleware::class)->group(function () {
+Route::middleware("role.token:admin")->group(function () {
+    Route::put("/schedules/{id}", [ScheduleController::class, "update"])->where("id", "[0-9]+");
+    Route::delete("/schedules/{id}", [ScheduleController::class, "delete"])->where("id", "[0-9]+");
+    Route::post("/restaurants/{idRestaurant}/schedules", [ScheduleController::class, "create"])->where("idRestaurant", "[0-9]+");
+    Route::post("/restaurants", [RestaurantController::class, "create"]);
+    Route::put("/restaurants/{id}", [RestaurantController::class, "update"])->where("id", "[0-9]+");
+    Route::delete("/restaurants/{id}", [RestaurantController::class, "delete"])->where("id", "[0-9]+");
+});
+
+Route::middleware(["role.token:admin,user"])->group(function () {
     Route::delete("/users/logout", [UserController::class, "logout"]);
+    Route::get("/restaurants", [RestaurantController::class, "filterRestaurantSchedule"]);
 });

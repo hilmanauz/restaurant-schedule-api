@@ -2,17 +2,18 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class UserRegisterRequest extends FormRequest
+class RestaurantUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return $this->user() != null;
     }
 
     /**
@@ -23,14 +24,10 @@ class UserRegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "username" => ["required", "max:100"],
-            "password" => ["required", "max:100"],
-            "name" => ["required", "max:100"],
-            "role" => ["required", "in:admin,user"],
+            "name" => ["required", "max:200"],
         ];
     }
-
-    protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response([
             "errors" => $validator->getMessageBag()
