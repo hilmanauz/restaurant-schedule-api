@@ -10,8 +10,6 @@ use Database\Seeders\UserSeeder;
 use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
 
-use function PHPUnit\Framework\assertTrue;
-
 class RestaurantTest extends TestCase
 {
     public function testCreateSuccess()
@@ -203,7 +201,7 @@ class RestaurantTest extends TestCase
         Log::info(json_encode($response, JSON_PRETTY_PRINT));
 
         self::assertEquals(10, count($response['data']));
-        self::assertEquals(47, $response['meta']['total']);
+        self::assertEquals(50, $response['meta']['total']);
     }
 
     public function testGetRestaurantsByTime()
@@ -231,7 +229,7 @@ class RestaurantTest extends TestCase
         Log::info(json_encode($response, JSON_PRETTY_PRINT));
 
         self::assertEquals(10, count($response['data']));
-        self::assertEquals(45, $response['meta']['total']);
+        self::assertEquals(50, $response['meta']['total']);
     }
 
     public function testSearchWithPage()

@@ -11,157 +11,6 @@
         }
     ],
     "paths": {
-        "/api/schedules": {
-            "post": {
-                "description": "Create new schedule",
-                "parameters": [
-                    {
-                        "schema": {},
-                        "name": "Authorization",
-                        "in": "header"
-                    }
-                ],
-                "requestBody": {
-                    "description": "Create new schedule",
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "first_name": {
-                                        "type": "string"
-                                    },
-                                    "last_name": {
-                                        "type": "string"
-                                    },
-                                    "email": {
-                                        "type": "string"
-                                    },
-                                    "phone": {
-                                        "type": "string"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Success create schedule",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "object",
-                                            "properties": {
-                                                "id": {
-                                                    "type": "number"
-                                                },
-                                                "first_name": {
-                                                    "type": "string"
-                                                },
-                                                "last_name": {
-                                                    "type": "string"
-                                                },
-                                                "email": {
-                                                    "type": "string"
-                                                },
-                                                "phone": {
-                                                    "type": "string"
-                                                }
-                                            }
-                                        },
-                                        "errors": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "get": {
-                "description": "Search schedule",
-                "parameters": [
-                    {
-                        "schema": {},
-                        "name": "Authorization",
-                        "in": "header"
-                    },
-                    {
-                        "schema": {},
-                        "name": "name",
-                        "in": "query"
-                    },
-                    {
-                        "schema": {},
-                        "name": "phone",
-                        "in": "query"
-                    },
-                    {
-                        "schema": {},
-                        "name": "email",
-                        "in": "query"
-                    },
-                    {
-                        "schema": {},
-                        "name": "size",
-                        "in": "query"
-                    },
-                    {
-                        "schema": {},
-                        "name": "page",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success search contacts",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "object",
-                                                "properties": {
-                                                    "id": {
-                                                        "type": "number"
-                                                    },
-                                                    "first_name": {
-                                                        "type": "string"
-                                                    },
-                                                    "last_name": {
-                                                        "type": "string"
-                                                    },
-                                                    "email": {
-                                                        "type": "string"
-                                                    },
-                                                    "phone": {
-                                                        "type": "string"
-                                                    }
-                                                }
-                                            }
-                                        },
-                                        "errors": {
-                                            "type": "object"
-                                        },
-                                        "meta": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/api/schedules/{id}": {
             "put": {
                 "description": "Update schedule",
@@ -185,16 +34,13 @@
                             "schema": {
                                 "type": "object",
                                 "properties": {
-                                    "first_name": {
+                                    "day_of_week": {
                                         "type": "string"
                                     },
-                                    "last_name": {
+                                    "open_time": {
                                         "type": "string"
                                     },
-                                    "email": {
-                                        "type": "string"
-                                    },
-                                    "phone": {
+                                    "close_time": {
                                         "type": "string"
                                     }
                                 }
@@ -213,72 +59,13 @@
                                         "data": {
                                             "type": "object",
                                             "properties": {
-                                                "id": {
-                                                    "type": "number"
-                                                },
-                                                "first_name": {
+                                                "day_of_week": {
                                                     "type": "string"
                                                 },
-                                                "last_name": {
+                                                "open_time": {
                                                     "type": "string"
                                                 },
-                                                "email": {
-                                                    "type": "string"
-                                                },
-                                                "phone": {
-                                                    "type": "string"
-                                                }
-                                            }
-                                        },
-                                        "errors": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "get": {
-                "description": "Get schedule",
-                "parameters": [
-                    {
-                        "schema": {},
-                        "name": "Authorization",
-                        "in": "header"
-                    },
-                    {
-                        "required": true,
-                        "schema": {},
-                        "name": "id",
-                        "in": "path"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success get schedule",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "object",
-                                            "properties": {
-                                                "id": {
-                                                    "type": "number"
-                                                },
-                                                "first_name": {
-                                                    "type": "string"
-                                                },
-                                                "last_name": {
-                                                    "type": "string"
-                                                },
-                                                "email": {
-                                                    "type": "string"
-                                                },
-                                                "phone": {
+                                                "close_time": {
                                                     "type": "string"
                                                 }
                                             }

@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post("/users", [UserController::class, "register"]);
+Route::post("/users/register", [UserController::class, "register"]);
 Route::post("/users/login", [UserController::class, "login"]);
 
 Route::middleware("role.token:admin")->group(function () {

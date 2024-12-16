@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rule;
 
 class UserRegisterRequest extends FormRequest
 {
@@ -26,7 +27,7 @@ class UserRegisterRequest extends FormRequest
             "username" => ["required", "max:100"],
             "password" => ["required", "max:100"],
             "name" => ["required", "max:100"],
-            "role" => ["required", "in:admin,user"],
+            "role" => ["required", Rule::in(['user', 'admin'])],
         ];
     }
 

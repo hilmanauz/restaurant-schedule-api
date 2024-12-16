@@ -70,22 +70,46 @@ class RestaurantController extends Controller
         $page = $request->input('page', 1);
         $restaurant = Restaurant::query()->with('schedules');
 
-        if ($request->input('date')) {
-            $date = Carbon::parse($request->input('date'));
-            $dayOfWeek = $date->format('D');
-            Log::info(json_encode($dayOfWeek, JSON_PRETTY_PRINT));
+        $time = $request->input('time') ? Carbon::parse($request->input('time'))->format('H:i:s') : null;
+        $dayOfWeek = $request->input('date') ? Carbon::parse($request->input('date'))->format('D') : null;
 
-            $restaurant->whereHas('schedules', function ($restaurant) use ($dayOfWeek) {
-                $restaurant->where('day_of_week', $dayOfWeek);
-            });
-        }
+        $restaurant->whereHas('schedules', function ($restaurant) use ($time, $dayOfWeek) {
+            if ($time && $dayOfWeek) {
+                $restaurant->where(function ($subQuery) use ($time, $dayOfWeek) {
+                    $subQuery->where('day_of_week', $dayOfWeek)
+                        ->whereRaw('? BETWEEN open_time AND close_time', [$time]);
+                })
+                    ->orWhere(function ($subQuery) use ($time, $dayOfWeek) {
+                        $previousDay = Carbon::parse($dayOfWeek)->subDay()->format('D');
+                        $subQuery->where('day_of_week', $previousDay)
+                            ->whereRaw('? BETWEEN open_time AND ADDTIME(close_time, "24:00:00")', [$time])
+                            ->whereRaw('close_time < open_time');
+                    });
+            } else if ($time) {
+                $restaurant->where(function ($restaurant) use ($time) {
+                    $restaurant->where(function ($restaurant) use ($time) {
+                        $restaurant->where('open_time', '<=', $time)
+                            ->where('close_time', '>=', $time);
+                    })
+                        ->orWhere(function ($restaurant) use ($time) {
+                            $restaurant->where('open_time', '<=', $time)
+                                ->whereRaw("TIME(DATE_ADD(close_time, INTERVAL 1 DAY)) >= ?", [$time])
+                                ->whereRaw('close_time < open_time');
+                        });
+                });
+            } else if ($dayOfWeek) {
+                $restaurant->where(function ($restaurant) use ($dayOfWeek) {
+                    $restaurant->where('day_of_week', $dayOfWeek)
+                        ->orWhere(function ($restaurant) use ($dayOfWeek) {
+                            $prevDay = Carbon::createFromFormat('D', $dayOfWeek)->subDay()->format('D');
+                            $restaurant->where('day_of_week', $prevDay)
+                                ->whereRaw("TIME(DATE_ADD(close_time, INTERVAL 1 DAY)) > '00:00:00'");
+                        });
+                });
+            }
 
-        if ($request->input('time')) {
-            $restaurant->whereHas('schedules', function ($restaurant) use ($request) {
-                $restaurant->where('open_time', '<=', $request->input('time'))
-                    ->where('close_time', '>=', $request->input('time'));
-            });
-        }
+
+        });
         $restaurant = $restaurant->paginate(perPage: 10, page: $page);
 
         return new RestaurantCollection($restaurant);

@@ -11,7 +11,7 @@
         }
     ],
     "paths": {
-        "/api/admin/restaurants": {
+        "/api/restaurants": {
             "post": {
                 "description": "Create new restaurant",
                 "parameters": [
@@ -66,15 +66,87 @@
                 }
             }
         },
-        "/api/admin/restaurants/{id}": {
-            "put": {
-                "description": "Update restaurant",
+        "/api/restaurants/{restaurantId}/schedules": {
+            "get": {
+                "description": "Get restaurant with the schedules",
                 "parameters": [
                     {
+                        "schema": {},
                         "name": "Authorization",
                         "in": "header"
                     },
                     {
+                        "required": true,
+                        "schema": {},
+                        "name": "restaurantId",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success get restaurant with the schedules",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "number"
+                                                },
+                                                "name": {
+                                                    "type": "string"
+                                                },
+                                                "schedules": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "number"
+                                                            },
+                                                            "day_of_week": {
+                                                                "type": "string"
+                                                            },
+                                                            "open_time": {
+                                                                "type": "string"
+                                                            },
+                                                            "close_time": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/restaurants/{id}": {
+            "put": {
+                "description": "Update restaurant",
+                "parameters": [
+                    {
+                        "schema": {},
+                        "name": "Authorization",
+                        "in": "header"
+                    },
+                    {
+                        "required": true,
+                        "schema": {},
                         "name": "id",
                         "in": "path"
                     }
@@ -123,55 +195,17 @@
                     }
                 }
             },
-            "get": {
-                "description": "Get restaurant",
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header"
-                    },
-                    {
-                        "name": "id",
-                        "in": "path"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Success get restaurant",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "object",
-                                            "properties": {
-                                                "id": {
-                                                    "type": "number"
-                                                },
-                                                "name": {
-                                                    "type": "string"
-                                                }
-                                            }
-                                        },
-                                        "errors": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
             "delete": {
                 "description": "Remove restaurant",
                 "parameters": [
                     {
+                        "schema": {},
                         "name": "Authorization",
                         "in": "header"
                     },
                     {
+                        "required": true,
+                        "schema": {},
                         "name": "id",
                         "in": "path"
                     }

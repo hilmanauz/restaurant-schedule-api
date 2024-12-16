@@ -11,7 +11,7 @@ class UserTest extends TestCase
     public function testRegisterSuccess()
     {
         $this->post(
-            "/api/users",
+            "/api/users/register",
             [
                 "username" => "johndoe",
                 "password" => "rahasia",
@@ -32,7 +32,7 @@ class UserTest extends TestCase
     public function testRegisterFailed()
     {
         $this->post(
-            "/api/users",
+            "/api/users/register",
             [
                 "username" => "",
                 "password" => "",
@@ -61,7 +61,7 @@ class UserTest extends TestCase
     public function testRegisterFailedRole()
     {
         $this->post(
-            "/api/users",
+            "/api/users/register",
             [
                 "username" => "",
                 "password" => "",
@@ -91,11 +91,12 @@ class UserTest extends TestCase
     {
         $this->testRegisterSuccess();
         $this->post(
-            "/api/users",
+            "/api/users/register",
             [
                 "username" => "johndoe",
                 "password" => "rahasia",
-                "name" => "Hilman Auzan Mulyono"
+                "name" => "Hilman Auzan Mulyono",
+                "role" => "admin"
             ]
         )->assertStatus(400)
             ->assertJson([
